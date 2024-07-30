@@ -8,7 +8,6 @@ import Env from "@/data/constants/env";
 
 
 export async function POST(request:Request){
-    
     try {
       const data = await request.json();
 
@@ -21,11 +20,10 @@ export async function POST(request:Request){
         }});
 
       if(!exist){
-        return NextResponse.json(
-            { 
+        return NextResponse.json({ 
                 title: "Falha ao tentar conectar",
                 description: "Usuario não existe."
-            }, {status: 401});
+        }, {status: 401});
       }
 
       const valid = await compare(data.password, exist.password);

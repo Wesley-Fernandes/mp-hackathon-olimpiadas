@@ -3,33 +3,29 @@ import { compare } from "bcrypt";
 import { cookies } from "next/headers";
 import {hash} from "bcrypt"
 import { db } from "@/lib/database";
+import { UserData, userSchema } from "@/data/schema/user-type";
 
 
 export async function POST(request:Request){
     
-    try {
+    try { 
       const data = await request.json();
+      const parsed = userSchema.parse(data);
 
-      const exist = await db.user.findUnique({
-        where:{
-            email: data.email
-        }, select: {
-            id: true
-        }});
+      const exist = await db.user.findUnique({where:{email: parsed.email}, select: {id: true}});
 
       if(!exist){
-        return NextResponse.json({ 
-                title: "Falha ao tentar registar",
-                description: "Usuario já existe."
-            }, {status: 401});
+        return NextResponse.json({title: "Falha ao tentar registar", description: "Usuario já existe."}, {status: 401});
       }
 
-      const hashed = await hash(data.password, 10); 
+      const hashed = await hash(parsed.password, 10); 
 
       await db.user.create({
         data: {
-            email: data.email,
+            email: parsed.email,
             password: hashed,
+            name: parsed.name,
+            icon: parsed.icon
         }
       })
 
