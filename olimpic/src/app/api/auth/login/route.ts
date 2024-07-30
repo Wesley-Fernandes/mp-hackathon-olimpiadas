@@ -4,7 +4,6 @@ import { compare } from "bcrypt";
 import { cookies } from "next/headers";
 import { sign } from "jsonwebtoken"
 import { db } from "@/lib/database";
-import Env from "@/data/constants/env";
 
 
 export async function POST(request:Request){
@@ -35,7 +34,7 @@ export async function POST(request:Request){
             }, {status: 401});
       }
 
-      const token = sign({ id: exist.id }, Env.SECRET_PASS, { expiresIn: '1h' });
+      const token = sign({ id: exist.id }, process.env.SECRET_PASS as string, { expiresIn: '1h' });
 
       cookies().set('token', token, {
         expires: new Date(Date.now() + 3600000),

@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { compare } from "bcrypt";
 import { cookies } from "next/headers";
-import {hash} from "bcrypt"
+import { hash } from "bcrypt"
 import { db } from "@/lib/database";
-import { UserData, userSchema } from "@/data/schema/user-type";
+import { userSchema } from "@/data/schema/user-type";
 
 
 export async function POST(request:Request){

@@ -1,9 +1,10 @@
-import Image from "next/image";
+"use client"
+import { Login } from "@/components/LoginComponent";
 
 export default function Home() {
   return (
-    <main>
-     
+    <main className="h-screen flex items-center justify-center">
+      <Login/>
     </main>
   );
 }
